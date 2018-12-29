@@ -1,0 +1,27 @@
+{
+  "name": "skyshared",
+  "version": "1.0.0",
+  "description": "foundation framework",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "foundation",
+    "framework"
+  ],
+  "author": "sky",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^3.1.0",
+    "eslint": "^5.10.0",
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.0",
+    "koa-compose": "^4.0.0",
+    "koa-router": "^7.4.0",
+    "log4js": "^3.0.6",
+    "merge": "^1.2.0",
+    "passthrough-counter": "^1.0.0",
+    "sequelize": "^4.42.0",
+    "tedious": "^3.0.1"
+  }
+}
