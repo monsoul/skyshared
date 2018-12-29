@@ -1,3 +1,12 @@
-const Logger = require('./logger')
+const Logger = require('./logger');
 
-module.exports = new Logger();
+const logger = new Logger();
+
+module.exports = {
+    init: function(setting) {
+        return logger.init(setting);
+    },
+    get: function(name, category) {
+        return logger.get(name, category);
+    }
+}
