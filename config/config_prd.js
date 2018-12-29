@@ -1,4 +1,5 @@
 var config = {
+	appName: 'skyShared',
     logger: {
         appenders: {
             console: {

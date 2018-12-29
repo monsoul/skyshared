@@ -1,6 +1,7 @@
 const logPath = process.env.LOG_PATH;
 
 var config = {
+	appName: 'skyShared',
     logger: {
         appenders: {
             console: {
