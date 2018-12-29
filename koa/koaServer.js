@@ -11,7 +11,7 @@ const koaCompose = require('koa-compose');
 const middleware = require('./middleware');
 const customError = require('./customError');
 const routerLoader = require('./routerLoader');
-const healthcheck = require('./healthcheck');
+const healthcheck = require('./healthCheck');
 const robots = require('./robots');
 const webLogger = require('./webLogger');
 
