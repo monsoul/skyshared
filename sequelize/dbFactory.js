@@ -35,7 +35,9 @@ function init(settings){
         throw new DefinedError(ErrorCodes.INVALID_DB_SETTINGS.errorCode, ErrorCodes.INVALID_DB_SETTINGS.message);
     }
 
-    factory = new DbFactory(settings);
+	factory = new DbFactory(settings);
+	
+	return factory;
 }
 
 module.exports = {
