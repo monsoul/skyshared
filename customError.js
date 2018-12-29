@@ -25,7 +25,7 @@ module.exports = {
         },
         INVALID_WEB_EMPTY_PARAMETER: {
             errorCode: BASE_CODE + 4,
-            message: 'has no a parameter'
+            message: 'have no a parameter'
         }
     }
 }
