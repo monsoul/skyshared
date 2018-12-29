@@ -1,3 +1,4 @@
 module.exports = {
-	typeUtil: require('./typeUtil')
+	typeUtil: require('./typeUtil'),
+	request: require('./request')
 }
