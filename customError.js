@@ -26,6 +26,10 @@ module.exports = {
         INVALID_WEB_EMPTY_PARAMETER: {
             errorCode: BASE_CODE + 4,
             message: 'have no a parameter'
-        }
+		},
+		CACHE_INIT_ERROR: {
+			errorCode: BASE_CODE + 5,
+			message: 'failed to init cache'
+		}
     }
 }
