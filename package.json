@@ -21,6 +21,7 @@
     "log4js": "^3.0.6",
     "merge": "^1.2.0",
     "passthrough-counter": "^1.0.0",
+    "redis": "^2.8.0",
     "sequelize": "^4.42.0",
     "tedious": "^3.0.1"
   }

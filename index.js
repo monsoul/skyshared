@@ -1,3 +1,5 @@
+require('./extension')
+
 module.exports = {
 	env: require('./env'),
 	customError: require('./customError'),
