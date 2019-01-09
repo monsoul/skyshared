@@ -3,11 +3,8 @@ const logPath = process.env.LOG_PATH;
 var config = {
 	appName: 'skyShared',
     redis: {
-        host: 'dev.redis.server',
-        port: 6379,     
-        options: {
-            password: '123456'
-        }
+        host: '10.211.55.5',
+        port: 6379
     },
     logger: {
         appenders: {

@@ -28,9 +28,9 @@ class RedisClient {
             name = DEFAULT_NAME;
         }
 
-        var client = this.clients[name];
+        let client = this.clients[name];
         if (!client) {
-            client = _createClient(name);
+            client = this._createClient(name);
             this.clients[name] = client;
         } else {
             logger.error('failed to create the', name, 'redis client');

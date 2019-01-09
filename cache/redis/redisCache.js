@@ -1,33 +1,63 @@
 const logger = require('../../log').get('cache');
 const redisClient = require('./redisClient');
 
+
 function setRedis(client, key, value, expire) {
     return function(resolve, reject) {
         if (value == undefined) {
             return resolve && resolve(null);
         }
+
         client.set(key, value, function(err, reply) {
             if (err) {
                 logger.error(err);
                 reject && reject(err);
+
+                return;
             }
+
             if (expire) {
                 client.expire(key, expire);
             }
+
             resolve && resolve(reply);
         });
     };
 }
 
-function removeRedis(client, key) {
+function getRedis(client, key, needParseJSON) {
+    return function(resolve, reject) {
+        client.get(key, function(err, data) {
+            if (err) {
+                logger.error(err);
+                reject && reject(err);
+
+                return;
+            }
+
+            let result;
+            if (needParseJSON) {
+                result = JSON.parse(data);
+            } else {
+                result = data;
+            }
+
+            resolve && resolve(result);
+        });
+    }
+}
+
+function delRedis(client, key) {
     return function(resolve, reject) {
         client.del(key, function(err, data) {
             if (err) {
                 logger.error(err);
                 reject && reject(err);
-            } else {
-                resolve && resolve(data);
+
+                return;
             }
+
+            resolve && resolve(data);
         });
     }
 }
@@ -53,34 +83,14 @@ function redisCache() {
                 setRedis(_client, key, stringfiedValue, expire)();
             }
         },
-
         get: function(key, needParseJSON) {
-            return new Promise(function(resolve, reject) {
-                _client.get(key, function(err, reply) {
-                    if (err) {
-                        logger.error(err);
-                        reject(err);
-                    }
-
-                    var result;
-                    if (needParseJSON && reply) {
-                        try {
-                            result = JSON.parse(reply);
-                        } catch (e) {
-                            reject(e);
-                        }
-                    } else {
-                        result = reply;
-                    }
-                    resolve(result);
-                });
-            });
+            return new Promise(getRedis(_client, key, needParseJSON));
         },
         del: function(key, wait) {
             if (wait === true) {
-                return new Promise(removeRedis(_client, key));
+                return new Promise(delRedis(_client, key));
             } else {
-                removeRedis(_client, key)();
+                delRedis(_client, key)();
             }
         }
     };

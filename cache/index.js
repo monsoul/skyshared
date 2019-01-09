@@ -1,5 +1,4 @@
 const redisCache = require('./redis/redisCache');
-const util = require('./util');
 
 let _cache = null;
 
@@ -17,10 +16,22 @@ async function loadx(cacheKey, parameter, isObject, expire, noCacheDelegate) {
     let value = await cache.get(cacheKey, isObject);
     if (value) {
         return value;
-    }
-    value = await noCacheDelegate(parameter);
-    await cache.set(cacheKey, value, expire);
-    return value;
+	}
+	
+	if(!noCacheDelegate){
+		return;
+	}
+
+	let isAsync = Object.prototype.toString.call(noCacheDelegate) === '[object AsyncFunction]';
+	if (isAsync) {
+		value = await noCacheDelegate(parameter);
+	} else {
+		value = noCacheDelegate(parameter);
+	}
+	
+	cache.set(cacheKey, value, expire);
+	
+	return value;
 };
 
 cache.init = function(enableCache) {
@@ -40,30 +51,28 @@ cache.init = function(enableCache) {
                 return redisClient.del(key, wait);
             },
 
-            load: function(cacheKey, parameter, isObject, expire, noCacheCallback) {
-                return loadx.call(this, cacheKey, parameter, isObject, expire, noCacheCallback);
+            load: function(cacheKey, parameter, isObject, expire, noCacheDelegate) {
+                return loadx.call(this, cacheKey, parameter, isObject, expire, noCacheDelegate);
             }
         };
     } else {
         _cache = {
             set: async function(key, value, expire, wait) {},
 
-            get: async function(key, obj) {
-                return null;
-            },
+            get: async function(key, obj) { },
 
             del: async function(key, wait) {},
 
-            load: async function(cacheKey, parameter, isObject, expire, noCacheCallback) {
-                if (!noCacheCallback) {
+            load: async function(cacheKey, parameter, isObject, expire, noCacheDelegate) {
+                if (!noCacheDelegate) {
                     return;
                 }
 
-                let isAsync = Object.prototype.toString.call(noCacheCallback) === '[object AsyncFunction]';
+                let isAsync = Object.prototype.toString.call(noCacheDelegate) === '[object AsyncFunction]';
                 if (isAsync) {
-                    return await noCacheCallback(parameter);
+                    return await noCacheDelegate(parameter);
                 } else {
-                    return noCacheCallback(parameter);
+                    return noCacheDelegate(parameter);
                 }
             }
         };
