@@ -3,10 +3,20 @@ function isArray(value) {
 }
 
 function isString(value){
-	return Object.prototype.toString.call(params) === '[object String]';
+	return Object.prototype.toString.call(value) === '[object String]';
+}
+
+function isBool(value){
+	return typeof value === 'boolean';
+}
+
+function isDate(value){
+	return Object.prototype.toString.call(value) === '[object Date]';
 }
 
 module.exports = {
 	isArray,
-	isString
+	isString,
+	isBool,
+	isDate
 }
