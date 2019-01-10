@@ -64,12 +64,12 @@ function delRedis(client, key) {
 
 let _client = null;
 
-function redisCache() {
+function redisCache(config) {
     if (!_client) {
-        _client = redisClient();
+        _client = redisClient(config);
     }
 
-    var redisCache = {
+    const redisCache = {
         set: function(key, value, expire, wait) {
             var stringfiedValue = value;
             if (typeof(value) === 'object') {

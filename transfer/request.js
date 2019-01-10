@@ -1,16 +1,19 @@
 const http = require('http');
-const log = require('../log').get('request');
-const appName = require('../config').appName;
+const config = require('../config');
+const logger = require('../log').get('request');
+const jsonMessage = require('../web/jsonMessage');
+const DefinedError = require('../customError').DefinedError;
+const ErrorCodes = require('../customError').ErrorCodes;
 
 module.exports = function(data, options) {
     options = {
         host: options.host,
         port: options.port,
-        path: (options.servicePrefix || '') + options.url,
+        path: (options.urlPrefix || '') + options.url,
         method: options.method || 'post',
         headers: {
             'Content-Type': 'application/json;charset=UTF-8',
-            'User-Agent': options.appName || appName
+            'User-Agent': options.appName || config.appName
         }
     };
 
@@ -25,34 +28,36 @@ module.exports = function(data, options) {
         req.end();
     }).then((res) => {
         return new Promise(function(resolve, reject) {
-            const chunks = []
+            const chunks = [];
             res.on('data', function(chunk) {
                 chunks.push(chunk)
-            })
+            });
+
             res.on('end', function() {
                 if (res.statusCode == '200') {
                     resolve(JSON.parse(Buffer.concat(chunks).toString()));
                 } else {
-                    log.error({
+                    logger.error({
                         statusCode: res.statusCode,
                         statusMessage: res.statusMessage,
                         body: Buffer.concat(chunks).toString()
                     });
 
-                    resolve({
-                        isSuccess: false,
-                        status: res.statusCode,
-                        message: 'remote server error'
-                    });
+                    resolve(jsonMessage.error(
+								new DefinedError(
+									ErrorCodes.REMOTE_SERVICE_ERROR.errorCode,
+									ErrorCodes.REMOTE_SERVICE_ERROR.message
+                    )));
                 }
             });
+
             res.on('error', function(e) {
-                log.error(e);
+                logger.error(e);
                 reject(e);
             })
         });
     }).catch(e => {
-        log.error(e);
+        logger.error(e);
 
         return new Promise(function(resolve, reject) {
             reject(e);

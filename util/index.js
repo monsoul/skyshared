@@ -1,5 +1,6 @@
 module.exports = {
 	typeUtil: require('./typeUtil'),
 	securityUtil: require('./securityUtil'),
-	request: require('./request')
+	jwtUtil: require('./jwtUtil'),
+	uuidUtil: require('./uuidUtil')
 }

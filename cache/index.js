@@ -3,7 +3,6 @@ const redisCache = require('./redis/redisCache');
 let _cache = null;
 
 function cache() {
-
     if (!_cache) {
         throw new Error('error, cache should be initialized fist.');
     }
@@ -16,27 +15,32 @@ async function loadx(cacheKey, parameter, isObject, expire, noCacheDelegate) {
     let value = await cache.get(cacheKey, isObject);
     if (value) {
         return value;
-	}
-	
-	if(!noCacheDelegate){
-		return;
-	}
+    }
 
-	let isAsync = Object.prototype.toString.call(noCacheDelegate) === '[object AsyncFunction]';
-	if (isAsync) {
-		value = await noCacheDelegate(parameter);
-	} else {
-		value = noCacheDelegate(parameter);
-	}
-	
-	cache.set(cacheKey, value, expire);
-	
-	return value;
+    if (!noCacheDelegate) {
+        return;
+    }
+
+    let isAsync = Object.prototype.toString.call(noCacheDelegate) === '[object AsyncFunction]';
+    if (isAsync) {
+        value = await noCacheDelegate(parameter);
+    } else {
+        value = noCacheDelegate(parameter);
+    }
+
+    cache.set(cacheKey, value, expire);
+
+    return value;
 };
 
-cache.init = function(enableCache) {
-    if (enableCache) {
-        var redisClient = redisCache();
+cache.init = function(config) {
+    if (!config) {
+        config = require('../config').redis;
+        config.enable = true;
+    }
+
+    if (config.enable) {
+        var redisClient = redisCache(config);
 
         _cache = {
             set: function(key, value, expire, wait) {
@@ -59,7 +63,7 @@ cache.init = function(enableCache) {
         _cache = {
             set: async function(key, value, expire, wait) {},
 
-            get: async function(key, obj) { },
+            get: async function(key, obj) {},
 
             del: async function(key, wait) {},
 

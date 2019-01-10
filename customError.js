@@ -30,6 +30,10 @@ module.exports = {
 		CACHE_INIT_ERROR: {
 			errorCode: BASE_CODE + 5,
 			message: 'failed to init cache'
+		},
+		REMOTE_SERVICE_ERROR: {
+			errorCode: BASE_CODE + 6,
+			message: 'remote server error'
 		}
     }
 }
