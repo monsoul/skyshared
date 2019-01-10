@@ -4,7 +4,7 @@ const Counter = require('passthrough-counter');
 const bytes = require('bytes');
 const util = require('util');
 
-const logger = require('../log').get('web');
+const logger = require('../../log').get('web');
 
 const DEFAULT_FORMAT = '%s - -' +
     ' "%s %s HTTP/1.1"' +
@@ -110,4 +110,6 @@ function _parseJson(objectInfo) {
     return objectInfo;
 }
 
-module.exports = webLogger;
+module.exports = function() {
+    return webLogger;
+};

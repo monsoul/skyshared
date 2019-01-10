@@ -1,6 +1,12 @@
-let isProduction = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'prd';
+const env = require('../../env');
+const envs = require('../../constant').envs;
+const jsonMessage = require('../../web/jsonMessage');
+const DefinedError = require('../../customError').DefinedError;
+const ErrorCodes = require('../../customError').ErrorCodes;
 
-module.exports = function customError(options) {
+let isProduction = env === envs.prd;
+
+module.exports = function customErrorMiddleware(options) {
     options = options || {};
 
     async function jsonError(ctx, err) {
@@ -8,16 +14,16 @@ module.exports = function customError(options) {
 
         if (ctx.status == 404) {
             ctx.body = {
-                'hello': 'unknown world'
+                'server': 'unknown error'
             };
 
             ctx.status = previewStatus;
         } else if (ctx.status >= 500) {
-            ctx.body = {
-                isSuccess: false,
-                code: '500',
-                message: isProduction ? 'Unexpected error' : err.message
-            };
+            ctx.body = jsonMessage.error(new DefinedError(ErrorCodes.SERVER_ERROR.errorCode, ErrorCodes.SERVER_ERROR.message));
+
+            if (!isProduction) {
+                ctx.body.message = err.message;
+            }
 
             ctx.status = previewStatus;
         }
@@ -46,10 +52,7 @@ module.exports = function customError(options) {
             ctx.status = 404;
         }
 
-        let contentType = ctx.headers['content-type'];
-        let xhr = ctx.headers['x-requested-with'] === 'XMLHttpRequest';
-
-        if (xhr || (contentType && contentType.indexOf('application/json') == 0)) {
+        if (ctx.isAjaxRequest) {
             await jsonError(ctx, err);
         } else {
             await htmlError(ctx, err);

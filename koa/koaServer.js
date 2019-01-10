@@ -8,12 +8,14 @@ const KoaBodyparser = require('koa-bodyparser');
 const KoaRouter = require('koa-router');
 const koaCompose = require('koa-compose');
 
-const middleware = require('./middleware');
-const customError = require('./customError');
 const routerLoader = require('./routerLoader');
-const healthcheck = require('./healthCheck');
-const robots = require('./robots');
-const webLogger = require('./webLogger');
+
+const healthCheckMiddleware = require('./middleware/healthCheckMiddleware');
+const webLoggerMiddleware = require('./middleware/webLoggerMiddleware');
+const ajaxFlagMiddleware = require('./middleware/ajaxFlagMiddleware');
+const serverNameMiddleware = require('./middleware/serverNameMiddleware');
+const customErrorMiddleware = require('./middleware/customErrorMiddleware');
+const robotsMiddleware = require('./middleware/robotsMiddleware');
 
 class KoaServer extends events.EventEmitter {
     constructor() {
@@ -23,9 +25,9 @@ class KoaServer extends events.EventEmitter {
             host: null,
             port: 30001,
             server_name: true,
-            healthcheck: true,
+            healthCheck: true,
             app_root: this._app_root(),
-            logger_wrapper: webLogger,
+            logger_wrapper: webLoggerMiddleware(),
             allow_robots: false
         };
     }
@@ -73,22 +75,23 @@ class KoaServer extends events.EventEmitter {
 
         let bodySetting = this.optionValue('body_parse', {});
         this.app.use(KoaBodyparser(bodySetting));
-        this.app.use(customError(this.optionValue('custom_error')));
+        this.app.use(ajaxFlagMiddleware());
+        this.app.use(customErrorMiddleware(this.optionValue('custom_error')));
 
         if (this.optionValue('server_name')) {
-            this.app.use(middleware.responseHeader);
-        }
-        this.app.use(middleware.jsonResponse);
+            this.app.use(serverNameMiddleware());
+		}
+		
         if (this.optionValue('logger_wrapper')) {
             this.app.use(this.optionValue('logger_wrapper'));
         }
-        if (this.optionValue('healthcheck')) {
-            debug('open healthcheck')
-            this.app.use(healthcheck);
+        if (this.optionValue('healthCheck')) {
+            debug('open healthCheck')
+            this.app.use(healthCheckMiddleware());
         }
         if (!this.optionValue('allow_robots', false)) {
             debug('open disable rebots')
-            this.app.use(robots);
+            this.app.use(robotsMiddleware());
         }
         if (this.optionValue('pre-router')) {
             this.optionValue('pre-router')(this.app);
@@ -126,12 +129,11 @@ class KoaServer extends events.EventEmitter {
         let host = this.optionValue('host');
         debug('start server on port %s host %s', port, host);
 
-        let server = this.app.listen(port, host,
-            () => {
-                debug('server is listening');
-
-                this.emit('onListening', port, host, this.app, server);
-            });
+        let server = this.app.listen(port, host, () => {
+            debug('server is listening');
+            this.emit('onListening', port, host, this.app, server);
+		});
+		
         server.on('error', err => {
             this.onError(err);
         });

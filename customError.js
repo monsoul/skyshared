@@ -34,6 +34,14 @@ module.exports = {
 		REMOTE_SERVICE_ERROR: {
 			errorCode: BASE_CODE + 6,
 			message: 'remote server error'
+		},
+		INVALID_SIGNATURE: {
+			errorCode: BASE_CODE + 7,
+			message: 'invalid signature'
+		},
+		SERVER_ERROR: {
+			errorCode: BASE_CODE + 8,
+			message: 'server error'
 		}
     }
 }
