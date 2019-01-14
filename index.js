@@ -7,7 +7,7 @@ module.exports = {
 	koaServer: require('./koa'),
 	logger: require('./log'),
 	util: require('./util'),
-	sequelize: require('./sequelize'),
+	data: require('./data'),
 	web: require('./web'),
-	transfer: require('./transfer')
+	net: require('./net')
 }
