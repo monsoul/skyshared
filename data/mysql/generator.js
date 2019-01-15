@@ -1,4 +1,3 @@
-
 /*
 require('../').init({
     schema: {
@@ -7,7 +6,9 @@ require('../').init({
         password: '77777qa',
         options: {
             host: '10.20.30.9',
-            dialect: 'mysql'
+			dialect: 'mysql',
+			logging: false,
+			operatorsAliases: false
         }
     }
 });
@@ -141,9 +142,9 @@ function generateColumns(columns) {
     return content.substr(0, content.length - 2);
 }
 
-async function generate(schema, tableName) {
+async function dal(schema, tableName) {
     const tableInfo = await loadSchema(schema, tableName);
-   
+
     const fieldContent = generateFields(tableInfo.primaryColumns, tableInfo.columns);
     const schemaContent = generateSchema(tableInfo.primaryColumns, tableInfo.columns);
     const columnContent = generateColumns(tableInfo.columns);
@@ -159,11 +160,60 @@ async function generate(schema, tableName) {
     content = content.replace(/{{columns}}/g, schemaContent);
     content = content.replace(/{{primary_key}}/g, generatePrimaryKey(tableInfo.primaryColumns));
 
-	toClipboard.sync(content);
-	
-	process.exit();
+    toClipboard.sync(content);
+
+    process.exit();
 }
 
-module.exports = generate;
 
-//generate('glp', 'glp_company');
+function formatName(name) {
+    const parts = name.split('_');
+
+    parts.forEach((part, i) => {
+        if (i === 0) {
+            return;
+        }
+
+        let first = part.substr(0, 1).toUpperCase();
+        parts[i] = first + part.substr(1, part.length - 1);
+    });
+
+    return parts.join('');
+}
+
+async function mapper(schema, tableName) {
+    const tableInfo = await loadSchema(schema, tableName);
+
+    const mapperFieldContent = readFile('mapperField.txt');
+    const mapperReverseFieldContent = readFile('mapperReverseField.txt');
+
+    let mapperFields = '';
+    let mapperReverseFields = '';
+    tableInfo.columns.forEach(column => {
+        if (EXCEPT_COLUMN[column.column_name]) {
+            return;
+        }
+        const fieldName = formatName(column.column_name);
+
+        mapperFields += mapperFieldContent.replace(/{{column_name}}/g, column.column_name).replace(/{{field_name}}/g, fieldName) + ',\n';
+        mapperReverseFields += mapperReverseFieldContent.replace(/{{column_name}}/g, column.column_name).replace(/{{field_name}}/g, fieldName) + ',\n';
+    });
+
+    mapperFields = mapperFields.substr(0, mapperFields.length - 2);
+    mapperReverseFields = mapperReverseFields.substr(0, mapperReverseFields.length - 2);
+
+    const mapperContent = readFile('mapper.txt');
+    let content = mapperContent.replace(/{{mapper_fields}}/g, mapperFields).replace(/{{mapper_reverse_fields}}/g, mapperReverseFields);
+
+    toClipboard.sync(content);
+
+    process.exit();
+}
+
+module.exports = {
+    dal,
+    mapper
+};
+
+//dal('glp', 'glp_company');
+//mapper('glp', 'glp_company');

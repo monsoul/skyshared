@@ -312,3 +312,12 @@ Promise.all([
 	console.log(value)
 	process.exit();
 });
+
+
+function _mapObject(data){
+	
+}
+
+function map(data){
+
+}

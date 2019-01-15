@@ -1,0 +1,57 @@
+const typeUtil = require('skyshared').util.typeUtil;
+
+const mapper = {
+{{mapper_fields}}
+}
+
+const reverseMapper = {
+{{mapper_reverse_fields}}
+}
+
+function mapObject(data) {
+    let result = {};
+    for (let key in data) {
+        const field = mapper[key];
+        if (field) {
+            result[field] = data[key];
+        }
+    }
+
+    return result;
+}
+
+function map(data) {
+    if (typeUtil.isArray(data)) {
+        return data.map(item => {
+            return mapObject(item);
+        });
+    } else {
+        return mapObject(data);
+    }
+}
+
+function reserveMapObject(data) {
+    let result = {};
+    for (let key in data) {
+        const column = reverseMapper[key];
+        if (column) {
+            result[column] = data[key];
+        }
+    }
+    return result;
+}
+
+function reserveMap(data) {
+    if (typeUtil.isArray(data)) {
+        return data.map(item => {
+            return reserveMapObject(item);
+        });
+    } else {
+        return reserveMapObject(data);
+    }
+}
+
+module.exports = {
+	map,
+	reserveMap
+}
