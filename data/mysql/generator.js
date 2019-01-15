@@ -91,7 +91,13 @@ function generateFields(primaryColumns, columns) {
     return template.substr(0, template.length - 2);
 }
 
-function generateSchema(columns) {
+function generateSchema(primaryColumns, columns) {
+	primaryColumns = primaryColumns || [];
+    const primaryFields = {};
+    primaryColumns.forEach(item => {
+        primaryFields[item.column_name] = item;
+    });
+
     const template = readFile('column.txt');
 
     let content = '';
@@ -100,7 +106,9 @@ function generateSchema(columns) {
             return;
         }
 
-        content += template.replace(/{{column_name}}/g, item.column_name).replace(/{{data_type}}/g, item.data_type);
+		content += template.replace(/{{column_name}}/g, item.column_name)
+					.replace(/{{data_type}}/g, item.data_type)
+					.replace(/{{is_primary}}/g, !!primaryFields[item.column_name]);
         content += ',\n';
     });
 
@@ -116,12 +124,26 @@ function generatePrimaryKey(primaryColumns) {
 	return template ? template.substr(0, template.length - 2) : '';
 }
 
+function generateColumns(columns){
+	let content = '';
+    columns.forEach(item => {
+        if (EXCEPT_COLUMN[item.column_name]) {
+            return;
+        }
+
+		content += '\'' + item.column_name + '\', '
+	});
+
+    return content.substr(0, content.length - 2);
+}
+
 async function generate(schema, tableName) {
 	
     const tableInfo = await loadSchema(schema, tableName);
 
     const fieldContent = generateFields(tableInfo.primaryColumns, tableInfo.columns);
-    const schemaContent = generateSchema(tableInfo.columns);
+	const schemaContent = generateSchema(tableInfo.primaryColumns, tableInfo.columns);
+	const columnContent = generateColumns(tableInfo.columns);
 
     let requireContent = readFile('require.txt');
     requireContent = requireContent.replace('{{connection}}', schema);
@@ -130,6 +152,7 @@ async function generate(schema, tableName) {
     let content = tableContent.replace(/{{require}}/g, requireContent);
     content = content.replace(/{{table_name}}/g, tableName);
     content = content.replace(/{{fields}}/g, fieldContent);
+    content = content.replace(/{{column_names}}/g, columnContent);
 	content = content.replace(/{{columns}}/g, schemaContent);
 	content = content.replace(/{{primary_key}}/g, generatePrimaryKey(tableInfo.primaryColumns))
 
@@ -137,4 +160,4 @@ async function generate(schema, tableName) {
 }
 
 
-generate('glp', 'glp_course')
+generate('glp', 'glp_company')

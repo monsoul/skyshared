@@ -20,160 +20,107 @@ const dbUtil = require('../dbUtil');
 const typeUtil = require('../../util/typeUtil');
 
 const _schema = {
-	table_name: 'glp_course',
+	table_name: 'glp_company',
 	columns: {
 		id: {
 			name: 'id',
-			data_type: 'varchar'
+			data_type: 'varchar',
+			is_primary: true
 		},
-		company_id: {
-			name: 'company_id',
-			data_type: 'varchar'
+		company_name: {
+			name: 'company_name',
+			data_type: 'varchar',
+			is_primary: false
 		},
-		company_user_id: {
-			name: 'company_user_id',
-			data_type: 'varchar'
+		organization_code: {
+			name: 'organization_code',
+			data_type: 'varchar',
+			is_primary: false
 		},
-		course_name: {
-			name: 'course_name',
-			data_type: 'varchar'
+		company_url: {
+			name: 'company_url',
+			data_type: 'varchar',
+			is_primary: false
 		},
-		course_type: {
-			name: 'course_type',
-			data_type: 'int'
+		contact_information: {
+			name: 'contact_information',
+			data_type: 'varchar',
+			is_primary: false
 		},
-		game_id: {
-			name: 'game_id',
-			data_type: 'varchar'
+		company_address: {
+			name: 'company_address',
+			data_type: 'varchar',
+			is_primary: false
 		},
-		course_lecturer_name: {
-			name: 'course_lecturer_name',
-			data_type: 'varchar'
+		industry: {
+			name: 'industry',
+			data_type: 'varchar',
+			is_primary: false
 		},
-		early_enter_time: {
-			name: 'early_enter_time',
-			data_type: 'int'
+		institution_name: {
+			name: 'institution_name',
+			data_type: 'varchar',
+			is_primary: false
 		},
-		start_time: {
-			name: 'start_time',
-			data_type: 'timestamp'
+		institution_type: {
+			name: 'institution_type',
+			data_type: 'varchar',
+			is_primary: false
 		},
-		end_time: {
-			name: 'end_time',
-			data_type: 'timestamp'
-		},
-		apply_start_time: {
-			name: 'apply_start_time',
-			data_type: 'timestamp'
-		},
-		apply_end_time: {
-			name: 'apply_end_time',
-			data_type: 'timestamp'
-		},
-		round_number: {
-			name: 'round_number',
-			data_type: 'int'
-		},
-		team_number: {
-			name: 'team_number',
-			data_type: 'int'
-		},
-		auto_run_flag: {
-			name: 'auto_run_flag',
-			data_type: 'int'
-		},
-		auto_run_time: {
-			name: 'auto_run_time',
-			data_type: 'int'
-		},
-		course_status: {
-			name: 'course_status',
-			data_type: 'int'
-		},
-		description: {
-			name: 'description',
-			data_type: 'varchar'
+		update_admin_user_id: {
+			name: 'update_admin_user_id',
+			data_type: 'varchar',
+			is_primary: false
 		}
-	}
+	},
+	column_names: ['id', 'company_name', 'organization_code', 'company_url', 'contact_information', 'company_address', 'industry', 'institution_name', 'institution_type', 'update_admin_user_id']
 };
 
-const _dal = db.define('glp_course', {
+const _dal = db.define('glp_company', {
 	id: {
 		type: Sequelize.STRING,
 		primaryKey: true,
 		field: 'id'
 	},
-	company_id: {
+	company_name: {
 		type: Sequelize.STRING,
-		field: 'company_id'
+		field: 'company_name'
 	},
-	company_user_id: {
+	organization_code: {
 		type: Sequelize.STRING,
-		field: 'company_user_id'
+		field: 'organization_code'
 	},
-	course_name: {
+	company_url: {
 		type: Sequelize.STRING,
-		field: 'course_name'
+		field: 'company_url'
 	},
-	course_type: {
-		type: Sequelize.INTEGER,
-		field: 'course_type'
-	},
-	game_id: {
+	contact_information: {
 		type: Sequelize.STRING,
-		field: 'game_id'
+		field: 'contact_information'
 	},
-	course_lecturer_name: {
+	company_address: {
 		type: Sequelize.STRING,
-		field: 'course_lecturer_name'
+		field: 'company_address'
 	},
-	early_enter_time: {
-		type: Sequelize.INTEGER,
-		field: 'early_enter_time'
-	},
-	start_time: {
-		type: Sequelize.DATE,
-		field: 'start_time'
-	},
-	end_time: {
-		type: Sequelize.DATE,
-		field: 'end_time'
-	},
-	apply_start_time: {
-		type: Sequelize.DATE,
-		field: 'apply_start_time'
-	},
-	apply_end_time: {
-		type: Sequelize.DATE,
-		field: 'apply_end_time'
-	},
-	round_number: {
-		type: Sequelize.INTEGER,
-		field: 'round_number'
-	},
-	team_number: {
-		type: Sequelize.INTEGER,
-		field: 'team_number'
-	},
-	auto_run_flag: {
-		type: Sequelize.INTEGER,
-		field: 'auto_run_flag'
-	},
-	auto_run_time: {
-		type: Sequelize.INTEGER,
-		field: 'auto_run_time'
-	},
-	course_status: {
-		type: Sequelize.INTEGER,
-		field: 'course_status'
-	},
-	description: {
+	industry: {
 		type: Sequelize.STRING,
-		field: 'description'
+		field: 'industry'
+	},
+	institution_name: {
+		type: Sequelize.STRING,
+		field: 'institution_name'
+	},
+	institution_type: {
+		type: Sequelize.STRING,
+		field: 'institution_type'
+	},
+	update_admin_user_id: {
+		type: Sequelize.STRING,
+		field: 'update_admin_user_id'
 	}
 }, {
     timestamps: false,
-    tableName: 'glp_course'
+    tableName: 'glp_company'
 });
 
 async function load(id){
@@ -185,10 +132,9 @@ async function load(id){
 }
 
 async function query(criteria, orderFields, columns){
+	const options = {};
 	const where = dbUtil.buildWhere(_schema, criteria);
-	const options = {
-		where
-	};
+	options.where = where || {};
 
 	const order = dbUtil.buildOrder(_schema, orderFields);
 	if(order){
@@ -208,7 +154,7 @@ async function pageQuery(criteria, page, orderFields, columns){
 	const options = {}
 
 	const where = dbUtil.buildWhere(_schema, criteria);
-	options.where = where;
+	options.where = where || {};
 
 	page = page || {};
 	page.index = page.index || 0;
@@ -236,18 +182,80 @@ async function pageQuery(criteria, page, orderFields, columns){
     return result;
 }
 
+async function add(criteria, columns) {
+    columns = columns || _schema.column_names;
 
+	let data = dbUtil.buildAdd(_schema, criteria);
+	if(!data){
+		return;
+	}
+
+    const result = await _dal.create(data, {
+        fields: columns
+    });
+
+    return result;
+}
+
+async function update(criteria, columns) {
+	columns = columns || _schema.column_names;
+
+	const result = dbUtil.buildUpdate(_schema, criteria, true);
+	if(!result.data){
+		return;
+	}
+	if(!result.where){
+		return;
+	}
+
+	const data = await _dal.update(result.data, {
+		fields: columns,
+		where: result.where
+	});
+	
+	return data;
+}
+
+async function batchUpdate(data, criteria, columns){
+	columns = columns || _schema.column_names;
+
+	data = dbUtil.buildUpdate(_schema, data);
+	if(!data){
+		return;
+	}
+
+	criteria = dbUtil.buildWhere(_schema, criteria);
+	if(!criteria){
+		return;
+	}
+
+	const result = await _dal.update(data, {
+		fields: columns,
+		where: criteria
+	});
+	
+	return result;
+}
+
+module.export = {
+	_schema,
+	_dal,
+	load,
+	query,
+	pageQuery,
+	add,
+	update,
+	batchUpdate
+}
 
 const operators = require('../constant').operators;
+const uuidUtil = require('../../util/uuidUtil');
+
 /*
 Promise.all([query({
-}, ['company_id', {
-	column: 'course_name'
-}, {
-	column: 'apply_start_time',
-	isDesc: true
-}], ['company_id'])]).then((value)=>{
-	console.log(value[0][0].company_id)
+	id: '76561aa2-c33d-4ca4-a98e-5d54d39e813f'
+})]).then((value)=>{
+	console.log(value)
 	process.exit();
 });
 
@@ -260,9 +268,47 @@ Promise.all([pageQuery({
 }])]).then((value)=>{
 	console.log(value[0])
 	process.exit();
-});*/
+});
 
 Promise.all([load('d735186e-4e0a-4263-9c2b-ac77187e7e17')]).then((value)=>{
 	console.log(value[0].id)
+	process.exit();
+});
+
+
+Promise.all([
+	add({
+		id: uuidUtil.uuid(),
+		company_name: 'test 3',
+		company_url: 'http://www.sina.com',
+		update_admin_user_id: 'f06807c3-e847-4f19-a427-8ee7fdfb340b'
+	})
+]).then((value)=>{
+	console.log(value[0].id)
+	process.exit();
+});
+
+Promise.all([
+	update({
+		id: '9651a67b-e860-4139-9601-f6a26fe41a6f',
+		company_url: 'http://www.baidu.com'
+	}, ['company_url', 'company_name'])
+]).then((value)=>{
+	console.log(value)
+	process.exit();
+});
+*/
+
+
+Promise.all([
+	batchUpdate({
+		id: '9651a67b-e860-4139-9601-f6a26fe41a6f',
+		company_url: 'http://www.baidu.com',
+		dafdsa: '122'
+	}, {
+		company_name: ['test 1', 'test 3']
+	})
+]).then((value)=>{
+	console.log(value)
 	process.exit();
 });

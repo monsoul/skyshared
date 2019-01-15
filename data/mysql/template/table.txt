@@ -4,7 +4,8 @@ const _schema = {
 	table_name: '{{table_name}}',
 	columns: {
 {{columns}}
-	}
+	},
+	column_names: [{{column_names}}]
 };
 
 const _dal = db.define('{{table_name}}', {
@@ -23,10 +24,9 @@ async function load({{primary_key}}){
 }
 
 async function query(criteria, orderFields, columns){
+	const options = {};
 	const where = dbUtil.buildWhere(_schema, criteria);
-	const options = {
-		where
-	};
+	options.where = where || {};
 
 	const order = dbUtil.buildOrder(_schema, orderFields);
 	if(order){
@@ -46,7 +46,7 @@ async function pageQuery(criteria, page, orderFields, columns){
 	const options = {}
 
 	const where = dbUtil.buildWhere(_schema, criteria);
-	options.where = where;
+	options.where = where || {};
 
 	page = page || {};
 	page.index = page.index || 0;
@@ -74,10 +74,68 @@ async function pageQuery(criteria, page, orderFields, columns){
     return result;
 }
 
+async function add(criteria, columns) {
+    columns = columns || _schema.column_names;
+
+	let data = dbUtil.buildAdd(_schema, criteria);
+	if(!data){
+		return;
+	}
+
+    const result = await _dal.create(data, {
+        fields: columns
+    });
+
+    return result;
+}
+
+async function update(criteria, columns) {
+	columns = columns || _schema.column_names;
+
+	const result = dbUtil.buildUpdate(_schema, criteria, true);
+	if(!result.data){
+		return;
+	}
+	if(!result.where){
+		return;
+	}
+
+	const data = await _dal.update(result.data, {
+		fields: columns,
+		where: result.where
+	});
+	
+	return data;
+}
+
+async function batchUpdate(data, criteria, columns){
+	columns = columns || _schema.column_names;
+
+	data = dbUtil.buildUpdate(_schema, data);
+	if(!data){
+		return;
+	}
+
+	criteria = dbUtil.buildWhere(_schema, criteria);
+	if(!criteria){
+		return;
+	}
+
+	const result = await _dal.update(data, {
+		fields: columns,
+		where: criteria
+	});
+	
+	return result;
+}
+
 module.export = {
 	_schema,
 	_dal,
 	load,
 	query,
-	pageQuery
+	pageQuery,
+	add,
+	update,
+	batchUpdate
 }
