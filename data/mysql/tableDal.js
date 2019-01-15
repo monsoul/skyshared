@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../').get('schema');
+const sequelize = require('../dbFactory').getSequelize('schema');
 
 const dal = sequelize.define('TABLES', {
     table_schema: {

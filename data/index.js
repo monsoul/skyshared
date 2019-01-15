@@ -11,5 +11,8 @@ module.exports = {
     },
     get: function(dbName) {
         return dbFactory.getSequelize(dbName);
-    }
+	},
+	generator: {
+		mySql: require('./mysql')
+	}
 }
