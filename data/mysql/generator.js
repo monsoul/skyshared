@@ -1,3 +1,5 @@
+
+/*
 require('../').init({
     schema: {
         database: 'information_schema',
@@ -9,9 +11,11 @@ require('../').init({
         }
     }
 });
+*/
 
 const fs = require('fs');
 const path = require('path');
+const toClipboard = require('to-clipboard');
 const tableDal = require('./tableDal');
 const columnDal = require('./columnDal');
 const primaryKeyDal = require('./primaryKeyDal');
@@ -92,7 +96,7 @@ function generateFields(primaryColumns, columns) {
 }
 
 function generateSchema(primaryColumns, columns) {
-	primaryColumns = primaryColumns || [];
+    primaryColumns = primaryColumns || [];
     const primaryFields = {};
     primaryColumns.forEach(item => {
         primaryFields[item.column_name] = item;
@@ -106,9 +110,9 @@ function generateSchema(primaryColumns, columns) {
             return;
         }
 
-		content += template.replace(/{{column_name}}/g, item.column_name)
-					.replace(/{{data_type}}/g, item.data_type)
-					.replace(/{{is_primary}}/g, !!primaryFields[item.column_name]);
+        content += template.replace(/{{column_name}}/g, item.column_name)
+            .replace(/{{data_type}}/g, item.data_type)
+            .replace(/{{is_primary}}/g, !!primaryFields[item.column_name]);
         content += ',\n';
     });
 
@@ -118,32 +122,31 @@ function generateSchema(primaryColumns, columns) {
 function generatePrimaryKey(primaryColumns) {
     let template = '';
     primaryColumns.forEach(item => {
-		template += item.column_name + ', ';
-	});
-	
-	return template ? template.substr(0, template.length - 2) : '';
+        template += item.column_name + ', ';
+    });
+
+    return template ? template.substr(0, template.length - 2) : '';
 }
 
-function generateColumns(columns){
-	let content = '';
+function generateColumns(columns) {
+    let content = '';
     columns.forEach(item => {
         if (EXCEPT_COLUMN[item.column_name]) {
             return;
         }
 
-		content += '\'' + item.column_name + '\', '
-	});
+        content += '\'' + item.column_name + '\', '
+    });
 
     return content.substr(0, content.length - 2);
 }
 
 async function generate(schema, tableName) {
-	
     const tableInfo = await loadSchema(schema, tableName);
-
+   
     const fieldContent = generateFields(tableInfo.primaryColumns, tableInfo.columns);
-	const schemaContent = generateSchema(tableInfo.primaryColumns, tableInfo.columns);
-	const columnContent = generateColumns(tableInfo.columns);
+    const schemaContent = generateSchema(tableInfo.primaryColumns, tableInfo.columns);
+    const columnContent = generateColumns(tableInfo.columns);
 
     let requireContent = readFile('require.txt');
     requireContent = requireContent.replace('{{connection}}', schema);
@@ -153,11 +156,14 @@ async function generate(schema, tableName) {
     content = content.replace(/{{table_name}}/g, tableName);
     content = content.replace(/{{fields}}/g, fieldContent);
     content = content.replace(/{{column_names}}/g, columnContent);
-	content = content.replace(/{{columns}}/g, schemaContent);
-	content = content.replace(/{{primary_key}}/g, generatePrimaryKey(tableInfo.primaryColumns))
+    content = content.replace(/{{columns}}/g, schemaContent);
+    content = content.replace(/{{primary_key}}/g, generatePrimaryKey(tableInfo.primaryColumns));
 
-    console.log(content);
+	toClipboard.sync(content);
+	
+	process.exit();
 }
 
+module.exports = generate;
 
-generate('glp', 'glp_company')
+//generate('glp', 'glp_company');
