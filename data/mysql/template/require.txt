@@ -1,0 +1,4 @@
+const Sequelize = require('sequelize');
+const db = require('skyshared').data.get('{{connection}}');
+const dbUtil = require('skyshared').data.dbUtil;
+const typeUtil = require('skyshared').util.typeUtil;

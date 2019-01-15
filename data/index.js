@@ -3,6 +3,7 @@ const config = require('../config');
 const dbFactory = require('./dbFactory');
 
 module.exports = {
+	dbUtil: require('./dbUtil'),
     init: function(setting) {
         const mergeSetting = merge({}, config.connectionSettings, (setting || {}));
 

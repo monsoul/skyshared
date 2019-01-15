@@ -14,33 +14,37 @@ module.exports = {
         DB_INIT_ERROR: {
             errorCode: BASE_CODE + 1,
             message: 'db init error'
-        },
+		},
+		INVALID_DB_SCHEMA: {
+			errorCode: BASE_CODE + 2,
+			message: 'invalid db schema'
+		},
         INVALID_DB_SETTINGS: {
-            errorCode: BASE_CODE + 2,
+            errorCode: BASE_CODE + 3,
             message: 'invalid db settings'
         },
         DB_NOT_EXISTS: {
-            errorCode: BASE_CODE + 3,
+            errorCode: BASE_CODE + 4,
             message: 'db not exist'
         },
         INVALID_WEB_EMPTY_PARAMETER: {
-            errorCode: BASE_CODE + 4,
+            errorCode: BASE_CODE + 5,
             message: 'have no a parameter'
 		},
 		CACHE_INIT_ERROR: {
-			errorCode: BASE_CODE + 5,
+			errorCode: BASE_CODE + 6,
 			message: 'failed to init cache'
 		},
 		REMOTE_SERVICE_ERROR: {
-			errorCode: BASE_CODE + 6,
+			errorCode: BASE_CODE + 7,
 			message: 'remote server error'
 		},
 		INVALID_SIGNATURE: {
-			errorCode: BASE_CODE + 7,
+			errorCode: BASE_CODE + 8,
 			message: 'invalid signature'
 		},
 		SERVER_ERROR: {
-			errorCode: BASE_CODE + 8,
+			errorCode: BASE_CODE + 999,
 			message: 'server error'
 		}
     }

@@ -1,0 +1,4 @@
+		{{column_name}}: {
+			name: '{{column_name}}',
+			data_type: '{{data_type}}'
+		}

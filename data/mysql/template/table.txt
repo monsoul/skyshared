@@ -1,0 +1,83 @@
+{{require}}
+
+const _schema = {
+	table_name: '{{table_name}}',
+	columns: {
+{{columns}}
+	}
+};
+
+const _dal = db.define('{{table_name}}', {
+{{fields}}
+}, {
+    timestamps: false,
+    tableName: '{{table_name}}'
+});
+
+async function load({{primary_key}}){
+	if(!arguments || arguments.length === 0){
+		return;
+	}
+
+	return await _dal.findById({{primary_key}});
+}
+
+async function query(criteria, orderFields, columns){
+	const where = dbUtil.buildWhere(_schema, criteria);
+	const options = {
+		where
+	};
+
+	const order = dbUtil.buildOrder(_schema, orderFields);
+	if(order){
+		options.order = order;
+	}
+	
+	if(columns && typeUtil.isArray(columns) && columns.length > 0){
+		options.attributes = columns;
+	}
+
+	let data = await _dal.findAll(options);
+
+    return data;
+}
+
+async function pageQuery(criteria, page, orderFields, columns){
+	const options = {}
+
+	const where = dbUtil.buildWhere(_schema, criteria);
+	options.where = where;
+
+	page = page || {};
+	page.index = page.index || 0;
+	page.size = page.size || 1;
+	options.limit = page.size;
+	options.offset = page.index * page.size;
+
+	const order = dbUtil.buildOrder(_schema, orderFields);
+	if(order){
+		options.order = order;
+	}
+	
+	if(columns && typeUtil.isArray(columns) && columns.length > 0){
+		options.attributes = columns;
+	}
+
+	let data = await _dal.findAndCountAll(options);
+
+	const result = {
+		data: data.rows,
+		recordCount: data.count,
+		pageCount: data.count % page.size === 0 ? data.count / page.size : Math.floor(data.count / page.size) + 1
+	}
+
+    return result;
+}
+
+module.export = {
+	_schema,
+	_dal,
+	load,
+	query,
+	pageQuery
+}
