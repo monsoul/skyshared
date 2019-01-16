@@ -75,7 +75,7 @@ async function pageQuery(criteria, page, orderFields, columns){
 }
 
 async function add(criteria, columns) {
-    columns = columns || _schema.column_names;
+    columns = columns || _schema.columnNames;
 
 	let data = dbUtil.buildAdd(_schema, criteria);
 	if(!data){
@@ -90,7 +90,7 @@ async function add(criteria, columns) {
 }
 
 async function update(criteria, columns) {
-	columns = columns || _schema.column_names;
+	columns = columns || _schema.columnNames;
 
 	const result = dbUtil.buildUpdate(_schema, criteria, true);
 	if(!result.data){
@@ -109,7 +109,7 @@ async function update(criteria, columns) {
 }
 
 async function batchUpdate(data, criteria, columns){
-	columns = columns || _schema.column_names;
+	columns = columns || _schema.columnNames;
 
 	data = dbUtil.buildUpdate(_schema, data);
 	if(!data){
