@@ -15,7 +15,10 @@ function resultHandler(func) {
                 }
             })
             .catch(err => {
-                if (err instanceof Error) {
+				if(err instanceof DefinedError){
+                    ctx.body = jsonMessage.error(err);
+				}
+				else if (err instanceof Error) {
                     throw err;
                 }
 
