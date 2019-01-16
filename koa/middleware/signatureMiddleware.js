@@ -16,7 +16,7 @@ module.exports = function signatureMiddleware(appSecrets, options) {
 
     async function handleMessage(ctx, message) {
         if (ctx.isAjaxRequest != undefined && ctx.isAjaxRequest) {
-            ctx.body = jsonMessage.error(new DefinedError(ErrorCodes.INVALID_SIGNATURE.errorCode, message));
+            ctx.body = jsonMessage.error(new DefinedError(ErrorCodes.INVALID_SIGNATURE.errorCode, message), ctx);
         } else {
             if (ctx.render && _options.error_view) {
                 await ctx.render(_options.error_view, {

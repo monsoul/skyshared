@@ -3,21 +3,29 @@ function JsonMessage() {
 
 }
 
-JsonMessage.success = function (data) {
+JsonMessage.success = function (data, ctx) {
     return {
-        isSuccess: true,
-        result: data,
-        now: Math.floor((new Date()).getTime() / 1000)
+		head: {
+			code: '000000',
+			message: 'ok',
+			serialId: ctx.serialId,
+			sessionId: ctx.sessionId,
+			timestamp: ctx.requestTime
+		},
+		body: data
     };
 }
 
-JsonMessage.error = function (err) {
+JsonMessage.error = function (err, ctx) {
     return {
-        isSuccess: false,
-        errorCode: err.errorCode,
-        message: err.message,
-        result: err.data,
-        now: Math.floor((new Date()).getTime() / 1000)
+		head: {
+			code: err.errorCode,
+			message: err.message,
+			serialId: ctx.serialId,
+			sessionId: ctx.sessionId,
+			timestamp: ctx.requestTime
+		},
+		body: err.data
     };
 }
 

@@ -9,20 +9,20 @@ function resultHandler(func) {
         return Promise.resolve(func.call(ctx, processInfo))
             .then(data => {
                 if (data instanceof DefinedError) {
-                    ctx.body = jsonMessage.error(data, ctx);
+                    ctx.body = jsonMessage.error(data);
                 } else {
-                    ctx.body = jsonMessage.success(data, ctx);
+                    ctx.body = jsonMessage.success(data);
                 }
             })
             .catch(err => {
 				if(err instanceof DefinedError){
-                    ctx.body = jsonMessage.error(err, ctx);
+                    ctx.body = jsonMessage.error(err);
 				}
 				else if (err instanceof Error) {
                     throw err;
                 }
 
-                ctx.body = jsonMessage.error(err, ctx);
+                ctx.body = jsonMessage.error(err);
             });
     }
 }

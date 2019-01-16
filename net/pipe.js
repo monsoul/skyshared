@@ -63,6 +63,6 @@ module.exports = function(ctx, next, options) {
 			new DefinedError(
 				ErrorCodes.REMOTE_SERVICE_ERROR.errorCode, 
 				ErrorCodes.REMOTE_SERVICE_ERROR.message
-		));
+		), ctx);
     });
 };

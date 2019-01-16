@@ -19,10 +19,11 @@ module.exports = function customErrorMiddleware(options) {
 
             ctx.status = previewStatus;
         } else if (ctx.status >= 500) {
-            ctx.body = jsonMessage.error(new DefinedError(ErrorCodes.SERVER_ERROR.errorCode, ErrorCodes.SERVER_ERROR.message));
+            ctx.body = jsonMessage.error(new DefinedError(ErrorCodes.SERVER_ERROR.errorCode, ErrorCodes.SERVER_ERROR.message), ctx);
 
             if (!isProduction) {
-                ctx.body.message = err.message;
+				ctx.body.head = ctx.body.head || {};
+                ctx.body.head.message = err.message;
             }
 
             ctx.status = previewStatus;

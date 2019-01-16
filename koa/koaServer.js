@@ -11,6 +11,7 @@ const koaCompose = require('koa-compose');
 const routerLoader = require('./routerLoader');
 
 const healthCheckMiddleware = require('./middleware/healthCheckMiddleware');
+const requestTimeMiddleware = require('./middleware/requestTimeMiddleware');
 const webLoggerMiddleware = require('./middleware/webLoggerMiddleware');
 const ajaxFlagMiddleware = require('./middleware/ajaxFlagMiddleware');
 const serverNameMiddleware = require('./middleware/serverNameMiddleware');
@@ -68,7 +69,10 @@ class KoaServer extends events.EventEmitter {
     }
 
     mount() {
-        debug('mount middleware');
+		debug('mount middleware');
+		
+		this.app.use(requestTimeMiddleware());
+
         if (this.optionValue('pre-mount')) {
             this.optionValue('pre-mount')(this.app);
         }
