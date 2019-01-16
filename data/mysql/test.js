@@ -20,60 +20,60 @@ const dbUtil = require('../dbUtil');
 const typeUtil = require('../../util/typeUtil');
 
 const _schema = {
-	table_name: 'glp_company',
+	tableName: 'glp_company',
 	columns: {
 		id: {
 			name: 'id',
-			data_type: 'varchar',
-			is_primary: true
+			dataType: 'varchar',
+			isPrimary: true
 		},
-		company_name: {
-			name: 'company_name',
-			data_type: 'varchar',
-			is_primary: false
+		companyName: {
+			name: 'companyName',
+			dataType: 'varchar',
+			isPrimary: false
 		},
-		organization_code: {
-			name: 'organization_code',
-			data_type: 'varchar',
-			is_primary: false
+		organizationCode: {
+			name: 'organizationCode',
+			dataType: 'varchar',
+			isPrimary: false
 		},
-		company_url: {
-			name: 'company_url',
-			data_type: 'varchar',
-			is_primary: false
+		companyUrl: {
+			name: 'companyUrl',
+			dataType: 'varchar',
+			isPrimary: false
 		},
-		contact_information: {
-			name: 'contact_information',
-			data_type: 'varchar',
-			is_primary: false
+		contactInformation: {
+			name: 'contactInformation',
+			dataType: 'varchar',
+			isPrimary: false
 		},
-		company_address: {
-			name: 'company_address',
-			data_type: 'varchar',
-			is_primary: false
+		companyAddress: {
+			name: 'companyAddress',
+			dataType: 'varchar',
+			isPrimary: false
 		},
 		industry: {
 			name: 'industry',
-			data_type: 'varchar',
-			is_primary: false
+			dataType: 'varchar',
+			isPrimary: false
 		},
-		institution_name: {
-			name: 'institution_name',
-			data_type: 'varchar',
-			is_primary: false
+		institutionName: {
+			name: 'institutionName',
+			dataType: 'varchar',
+			isPrimary: false
 		},
-		institution_type: {
-			name: 'institution_type',
-			data_type: 'varchar',
-			is_primary: false
+		institutionType: {
+			name: 'institutionType',
+			dataType: 'varchar',
+			isPrimary: false
 		},
-		update_admin_user_id: {
-			name: 'update_admin_user_id',
-			data_type: 'varchar',
-			is_primary: false
+		updateAdminUserId: {
+			name: 'updateAdminUserId',
+			dataType: 'varchar',
+			isPrimary: false
 		}
 	},
-	column_names: ['id', 'company_name', 'organization_code', 'company_url', 'contact_information', 'company_address', 'industry', 'institution_name', 'institution_type', 'update_admin_user_id']
+	columnNames: ['id', 'companyName', 'organizationCode', 'companyUrl', 'contactInformation', 'companyAddress', 'industry', 'institutionName', 'institutionType', 'updateAdminUserId']
 };
 
 const _dal = db.define('glp_company', {
@@ -82,23 +82,23 @@ const _dal = db.define('glp_company', {
 		primaryKey: true,
 		field: 'id'
 	},
-	company_name: {
+	companyName: {
 		type: Sequelize.STRING,
 		field: 'company_name'
 	},
-	organization_code: {
+	organizationCode: {
 		type: Sequelize.STRING,
 		field: 'organization_code'
 	},
-	company_url: {
+	companyUrl: {
 		type: Sequelize.STRING,
 		field: 'company_url'
 	},
-	contact_information: {
+	contactInformation: {
 		type: Sequelize.STRING,
 		field: 'contact_information'
 	},
-	company_address: {
+	companyAddress: {
 		type: Sequelize.STRING,
 		field: 'company_address'
 	},
@@ -106,15 +106,15 @@ const _dal = db.define('glp_company', {
 		type: Sequelize.STRING,
 		field: 'industry'
 	},
-	institution_name: {
+	institutionName: {
 		type: Sequelize.STRING,
 		field: 'institution_name'
 	},
-	institution_type: {
+	institutionType: {
 		type: Sequelize.STRING,
 		field: 'institution_type'
 	},
-	update_admin_user_id: {
+	updateAdminUserId: {
 		type: Sequelize.STRING,
 		field: 'update_admin_user_id'
 	}
@@ -237,7 +237,7 @@ async function batchUpdate(data, criteria, columns){
 	return result;
 }
 
-module.export = {
+module.exports = {
 	_schema,
 	_dal,
 	load,
@@ -251,17 +251,22 @@ module.export = {
 const operators = require('../constant').operators;
 const uuidUtil = require('../../util/uuidUtil');
 
+
+
+
 /*
 Promise.all([query({
 	id: '76561aa2-c33d-4ca4-a98e-5d54d39e813f'
 })]).then((value)=>{
-	console.log(value)
+	console.log(value[0])
 	process.exit();
 });
 
+
 Promise.all([pageQuery({
-}, {index: 0, size: 4}, ['company_id', {
-	column: 'course_name'
+	companyName: 'test 1'
+}, {index: 0, size: 4}, ['companyName', {
+	column: 'organizationCode'
 }, {
 	column: 'id',
 	isDesc: true
@@ -270,7 +275,7 @@ Promise.all([pageQuery({
 	process.exit();
 });
 
-Promise.all([load('d735186e-4e0a-4263-9c2b-ac77187e7e17')]).then((value)=>{
+Promise.all([load('76561aa2-c33d-4ca4-a98e-5d54d39e813f')]).then((value)=>{
 	console.log(value[0].id)
 	process.exit();
 });
@@ -279,9 +284,9 @@ Promise.all([load('d735186e-4e0a-4263-9c2b-ac77187e7e17')]).then((value)=>{
 Promise.all([
 	add({
 		id: uuidUtil.uuid(),
-		company_name: 'test 3',
-		company_url: 'http://www.sina.com',
-		update_admin_user_id: 'f06807c3-e847-4f19-a427-8ee7fdfb340b'
+		companyName: 'test 4',
+		companyUrl: 'http://www.baidu.com',
+		updateAdminUserId: 'f06807c3-e847-4f19-a427-8ee7fdfb340b'
 	})
 ]).then((value)=>{
 	console.log(value[0].id)
@@ -291,33 +296,24 @@ Promise.all([
 Promise.all([
 	update({
 		id: '9651a67b-e860-4139-9601-f6a26fe41a6f',
-		company_url: 'http://www.baidu.com'
-	}, ['company_url', 'company_name'])
+		companyUrl: 'http://www.google.com'
+	}, ['companyUrl', 'companyName'])
 ]).then((value)=>{
 	console.log(value)
 	process.exit();
 });
-*/
 
 
 Promise.all([
 	batchUpdate({
 		id: '9651a67b-e860-4139-9601-f6a26fe41a6f',
-		company_url: 'http://www.baidu.com',
+		companyUrl: 'http://www.baidu.com',
 		dafdsa: '122'
 	}, {
-		company_name: ['test 1', 'test 3']
+		companyName: ['test 1', 'test 2']
 	})
 ]).then((value)=>{
 	console.log(value)
 	process.exit();
 });
-
-
-function _mapObject(data){
-	
-}
-
-function map(data){
-
-}
+*/

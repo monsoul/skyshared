@@ -77,8 +77,10 @@ function generateFields(primaryColumns, columns) {
     let template = '';
     columns.forEach(item => {
         if (primaryFields[item.column_name]) {
-            let column = primaryFieldContent.replace(/{{field}}/g, item.column_name);
+			const fieldName = formatName(item.column_name);
+            let column = primaryFieldContent.replace(/{{field}}/g, fieldName);
             column = column.replace(/{{field_type}}/g, COLUMN_TYPE_MAP[item.data_type] || COLUMN_TYPE_MAP.varchar);
+			column = column.replace(/{{column_name}}/g, item.column_name);
 
             template += column + ',' + '\n';
         }
@@ -86,9 +88,11 @@ function generateFields(primaryColumns, columns) {
 
     columns.forEach(item => {
         if (!primaryFields[item.column_name] && !EXCEPT_COLUMN[item.column_name]) {
-            let column = fieldContent.replace(/{{field}}/g, item.column_name);
+			const fieldName = formatName(item.column_name);
+            let column = fieldContent.replace(/{{field}}/g, fieldName);
             column = column.replace(/{{field_type}}/g, COLUMN_TYPE_MAP[item.data_type] || COLUMN_TYPE_MAP.varchar);
-
+			column = column.replace(/{{column_name}}/g, item.column_name);
+			
             template += column + ',' + '\n';
         }
     });
@@ -111,7 +115,7 @@ function generateSchema(primaryColumns, columns) {
             return;
         }
 
-        content += template.replace(/{{column_name}}/g, item.column_name)
+        content += template.replace(/{{field}}/g, formatName(item.column_name))
             .replace(/{{data_type}}/g, item.data_type)
             .replace(/{{is_primary}}/g, !!primaryFields[item.column_name]);
         content += ',\n';
@@ -136,7 +140,7 @@ function generateColumns(columns) {
             return;
         }
 
-        content += '\'' + item.column_name + '\', '
+        content += '\'' + formatName(item.column_name) + '\', '
     });
 
     return content.substr(0, content.length - 2);

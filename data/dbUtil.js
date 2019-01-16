@@ -155,7 +155,7 @@ function buildUpdate(schema, criteria, byPrimaryKey) {
             continue;
         }
 
-        if (column.is_primary) {
+        if (column.isPrimary) {
             if (!byPrimaryKey) {
                 continue;
             }

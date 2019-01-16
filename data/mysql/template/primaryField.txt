@@ -1,5 +1,5 @@
 	{{field}}: {
 		type: {{field_type}},
 		primaryKey: true,
-		field: '{{field}}'
+		field: '{{column_name}}'
 	}

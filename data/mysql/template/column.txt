@@ -1,5 +1,5 @@
-		{{column_name}}: {
-			name: '{{column_name}}',
-			data_type: '{{data_type}}',
-			is_primary: {{is_primary}}
+		{{field}}: {
+			name: '{{field}}',
+			dataType: '{{data_type}}',
+			isPrimary: {{is_primary}}
 		}

@@ -1,11 +1,11 @@
 {{require}}
 
 const _schema = {
-	table_name: '{{table_name}}',
+	tableName: '{{table_name}}',
 	columns: {
 {{columns}}
 	},
-	column_names: [{{column_names}}]
+	columnNames: [{{column_names}}]
 };
 
 const _dal = db.define('{{table_name}}', {

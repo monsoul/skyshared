@@ -1,4 +1,4 @@
 	{{field}}: {
 		type: {{field_type}},
-		field: '{{field}}'
+		field: '{{column_name}}'
 	}
