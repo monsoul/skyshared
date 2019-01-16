@@ -23,7 +23,7 @@ async function load({{primary_key}}){
 	return await _dal.findById({{primary_key}});
 }
 
-async function query(criteria, orderFields, columns){
+async function query(criteria, orderFields, columns, limit){
 	const options = {};
 	const where = dbUtil.buildWhere(_schema, criteria);
 	options.where = where || {};
@@ -35,6 +35,10 @@ async function query(criteria, orderFields, columns){
 	
 	if(columns && typeUtil.isArray(columns) && columns.length > 0){
 		options.attributes = columns;
+	}
+
+	if(limit) {
+		options.limit = limit;
 	}
 
 	let data = await _dal.findAll(options);
