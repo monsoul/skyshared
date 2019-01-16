@@ -28,6 +28,11 @@ function unixTime(dateTime, onlyDate) {
     return Math.floor(dateTime.getTime() / 1000);
 }
 
+function exactUnixTime(dateTime){
+	dateTime = dateTime || new Date();
+    return dateTime.getTime();
+}
+
 function parseUnixTime(unixTime) {
     return new Date(unixTime * 1000);
 }
@@ -135,7 +140,8 @@ function isoFormat(dateTime) {
 }
 
 module.exports = {
-    unixTime,
+	unixTime,
+	exactUnixTime,
     parseUnixTime,
 	addDays,
 	addHours,
