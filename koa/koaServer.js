@@ -11,7 +11,8 @@ const koaCompose = require('koa-compose');
 const routerLoader = require('./routerLoader');
 
 const healthCheckMiddleware = require('./middleware/healthCheckMiddleware');
-const requestTimeMiddleware = require('./middleware/requestTimeMiddleware');
+const requestEnvMiddleware = require('./middleware/requestEnvMiddleware');
+const headResultMiddleware = require('./middleware/headResultMiddleware');
 const webLoggerMiddleware = require('./middleware/webLoggerMiddleware');
 const ajaxFlagMiddleware = require('./middleware/ajaxFlagMiddleware');
 const serverNameMiddleware = require('./middleware/serverNameMiddleware');
@@ -25,15 +26,17 @@ class KoaServer extends events.EventEmitter {
         this.options = {
             host: null,
             port: 30001,
-            server_name: true,
+            serverName: true,
             healthCheck: true,
-            app_root: this._app_root(),
-            logger_wrapper: webLoggerMiddleware(),
-            allow_robots: false
+            requestEnv: false,
+            headResult: false,
+            appRoot: this._appRoot(),
+            loggerWrapper: webLoggerMiddleware(),
+            allowRobots: false
         };
     }
 
-    _app_root() {
+    _appRoot() {
         var appRoot = (function(_rootPath) {
             var parts = _rootPath.split(path.sep);
             parts.pop(); //get rid of /node_modules from the end of the path
@@ -69,42 +72,47 @@ class KoaServer extends events.EventEmitter {
     }
 
     mount() {
-		debug('mount middleware');
-		
-		this.app.use(requestTimeMiddleware());
+        debug('mount middleware');
 
-        if (this.optionValue('pre-mount')) {
-            this.optionValue('pre-mount')(this.app);
+        if (this.optionValue['requestEnv']) {
+            this.app.use(requestEnvMiddleware());
+        }
+        if (this.optionValue['headResult']) {
+            this.app.use(headResultMiddleware());
         }
 
-        let bodySetting = this.optionValue('body_parse', {});
+        if (this.optionValue('preMount')) {
+            this.optionValue('preMount')(this.app);
+        }
+
+        let bodySetting = this.optionValue('bodyParse', {});
         this.app.use(KoaBodyparser(bodySetting));
         this.app.use(ajaxFlagMiddleware());
-        this.app.use(customErrorMiddleware(this.optionValue('custom_error')));
+        this.app.use(customErrorMiddleware(this.optionValue('customError')));
 
-        if (this.optionValue('server_name')) {
+        if (this.optionValue('serverName')) {
             this.app.use(serverNameMiddleware());
-		}
-		
-        if (this.optionValue('logger_wrapper')) {
-            this.app.use(this.optionValue('logger_wrapper'));
+        }
+
+        if (this.optionValue('loggerWrapper')) {
+            this.app.use(this.optionValue('loggerWrapper'));
         }
         if (this.optionValue('healthCheck')) {
             debug('open healthCheck')
             this.app.use(healthCheckMiddleware());
         }
-        if (!this.optionValue('allow_robots', false)) {
+        if (!this.optionValue('allowRobots', false)) {
             debug('open disable rebots')
             this.app.use(robotsMiddleware());
         }
-        if (this.optionValue('pre-router')) {
-            this.optionValue('pre-router')(this.app);
+        if (this.optionValue('preRouter')) {
+            this.optionValue('preRouter')(this.app);
         }
 
         let routeList = routerLoader(this) || [];
 
-        if (this.optionValue('post-router')) {
-            this.optionValue('post-router')(routeList);
+        if (this.optionValue('postRouter')) {
+            this.optionValue('postRouter')(routeList);
         }
 
         let routeMiddleware = [];
@@ -118,8 +126,8 @@ class KoaServer extends events.EventEmitter {
             this.app.use(koaCompose(routeMiddleware));
         }
 
-        if (this.optionValue('post-mount')) {
-            this.optionValue('post-mount')(app);
+        if (this.optionValue('postMount')) {
+            this.optionValue('postMount')(app);
         }
 
         // Handle uncaught errors
@@ -136,8 +144,8 @@ class KoaServer extends events.EventEmitter {
         let server = this.app.listen(port, host, () => {
             debug('server is listening');
             this.emit('onListening', port, host, this.app, server);
-		});
-		
+        });
+
         server.on('error', err => {
             this.onError(err);
         });
