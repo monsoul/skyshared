@@ -74,10 +74,10 @@ class KoaServer extends events.EventEmitter {
     mount() {
         debug('mount middleware');
 
-        if (this.optionValue['requestEnv']) {
+        if (this.optionValue('requestEnv')) {
             this.app.use(requestEnvMiddleware());
         }
-        if (this.optionValue['headResult']) {
+        if (this.optionValue('headResult')) {
             this.app.use(headResultMiddleware());
         }
 
