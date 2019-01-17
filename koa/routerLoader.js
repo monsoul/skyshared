@@ -6,14 +6,14 @@ const util = require('util');
 module.exports = function(koaSpeed) {
     let _this = koaSpeed;
 
-    let appRoute = _this.optionValue('app_route');
+    let appRoute = _this.optionValue('appRoute');
     if (!appRoute) {
         return null;
     }
     debug('load routes');
 
-    let routeLocation = path.join(_this.optionValue('app_root'), appRoute);
-    let routePath = _this.optionValue('route_path');
+    let routeLocation = path.join(_this.optionValue('appRoot'), appRoute);
+    let routePath = _this.optionValue('routePath');
     let routeList = []
 
     recursiveBuild(routeList, routePath, routeLocation, routeLocation);
