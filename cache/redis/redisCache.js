@@ -66,7 +66,8 @@ let _client = null;
 
 function redisCache(config) {
     if (!_client) {
-        _client = redisClient(config);
+		redisClient.init(config);
+        _client = redisClient.get(config.name);
     }
 
     const redisCache = {

@@ -63,11 +63,3 @@ module.exports = {
         return _redisClient.getClient(name);
     }
 }
-
-module.exports = function(name) {
-    if (!_redisClient) {
-        _redisClient = new RedisClient();
-    }
-
-    return _redisClient.getClient(name);
-};
