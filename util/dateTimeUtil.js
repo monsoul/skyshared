@@ -28,8 +28,8 @@ function unixTime(dateTime, onlyDate) {
     return Math.floor(dateTime.getTime() / 1000);
 }
 
-function exactUnixTime(dateTime){
-	dateTime = dateTime || new Date();
+function exactUnixTime(dateTime) {
+    dateTime = dateTime || new Date();
     return dateTime.getTime();
 }
 
@@ -37,44 +37,54 @@ function parseUnixTime(unixTime) {
     return new Date(unixTime * 1000);
 }
 
-function addDays(dateTime, days) {
+function addMonths(dateTime, months) {
 	if(!typeUtil.isDate(dateTime)){
-		days = dateTime;
+		months = dateTime;
 		dateTime = new Date();
 	}
+
+	dateTime.setMonth(dateTime.getMonth() + months);
+	return dateTime;
+}
+
+function addDays(dateTime, days) {
+    if (!typeUtil.isDate(dateTime)) {
+        days = dateTime;
+        dateTime = new Date();
+    }
 
     dateTime.setDate(dateTime.getDate() + days);
 
     return dateTime;
 }
 
-function addHours(dateTime, hours){
-	if(!typeUtil.isDate(dateTime)){
-		hours = dateTime;
-		dateTime = new Date();
-	}
+function addHours(dateTime, hours) {
+    if (!typeUtil.isDate(dateTime)) {
+        hours = dateTime;
+        dateTime = new Date();
+    }
 
     dateTime.setHours(dateTime.getHours() + hours);
 
     return dateTime;
 }
 
-function addMinutes(dateTime, minutes){
-	if(!typeUtil.isDate(dateTime)){
-		minutes = dateTime;
-		dateTime = new Date();
-	}
+function addMinutes(dateTime, minutes) {
+    if (!typeUtil.isDate(dateTime)) {
+        minutes = dateTime;
+        dateTime = new Date();
+    }
 
     dateTime.setMinutes(dateTime.getMinutes() + minutes);
 
     return dateTime;
 }
 
-function addSeconds(dateTime, seconds){
-	if(!typeUtil.isDate(dateTime)){
-		seconds = dateTime;
-		dateTime = new Date();
-	}
+function addSeconds(dateTime, seconds) {
+    if (!typeUtil.isDate(dateTime)) {
+        seconds = dateTime;
+        dateTime = new Date();
+    }
 
     dateTime.setSeconds(dateTime.getSeconds() + seconds);
 
@@ -87,15 +97,14 @@ function getWeekName(dateTime) {
 }
 
 function format(dateTime, includeTime, splitChar) {
-	if(typeUtil.isBool(dateTime)){
-		includeTime = dateTime;
-		dateTime = new Date();
-	}
-	else if(typeUtil.isString(dateTime)){
-		splitChar = dateTime;
-		includeTime = false;
-		dateTime = new Date();
-	}
+    if (typeUtil.isBool(dateTime)) {
+        includeTime = dateTime;
+        dateTime = new Date();
+    } else if (typeUtil.isString(dateTime)) {
+        splitChar = dateTime;
+        includeTime = false;
+        dateTime = new Date();
+    }
 
     if (typeUtil.isString(includeTime)) {
         splitChar = includeTime;
@@ -140,13 +149,13 @@ function isoFormat(dateTime) {
 }
 
 module.exports = {
-	unixTime,
-	exactUnixTime,
+    unixTime,
+    exactUnixTime,
     parseUnixTime,
-	addDays,
-	addHours,
-	addMinutes,
-	addSeconds,
+    addDays,
+    addHours,
+    addMinutes,
+    addSeconds,
     getWeekName,
     format,
     isoFormat
