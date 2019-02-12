@@ -54,7 +54,7 @@ async function pageQuery(criteria, page, orderFields, columns){
 
 	page = page || {};
 	page.index = page.index || 0;
-	page.size = page.size || 1;
+	page.size = page.size || 10;
 	options.limit = page.size;
 	options.offset = page.index * page.size;
 
