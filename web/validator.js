@@ -44,7 +44,7 @@ function propertyValidator(obj, fieldArray) {
     });
 
     if (errFound) {
-        throw new DefinedError(ErrorCodes.INVALID_WEB_EMPTY_PARAMETER.errorCode, ErrorCodes.INVALID_WEB_EMPTY_PARAMETER.message);
+        throw new DefinedError(ErrorCodes.INVALID_WEB_EMPTY_PARAMETER.errorCode, util.format('%s is necessary', errorField));
     } else {
         return true;
     }
