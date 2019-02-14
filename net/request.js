@@ -18,10 +18,16 @@ module.exports = function(data, options) {
     };
 
     return new Promise((resolve, reject) => {
+		let json;
+		if(data){
+			json = JSON.stringify(data);
+			options.headers['Content-Length'] = json.length;
+		}
+
         var req = http.request(options, resolve);
 
         if (data) {
-            req.write(JSON.stringify(data));
+            req.write(json);
         }
 
         req.on('error', reject);
