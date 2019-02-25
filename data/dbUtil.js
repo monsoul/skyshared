@@ -138,7 +138,7 @@ function buildAdd(schema, criteria) {
 
 function buildUpdate(schema, criteria, byPrimaryKey) {
     if (!criteria) {
-        return;
+        return {};
     }
 
     if (!schema || !schema.columns) {
@@ -178,10 +178,10 @@ function buildUpdate(schema, criteria, byPrimaryKey) {
                 data,
                 where
             };
-        } else {
-            return data;
         }
-    }
+	}
+	
+	return data;
 }
 
 module.exports = {
