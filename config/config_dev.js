@@ -9,13 +9,19 @@ var config = {
     logger: {
         appenders: {
             console: {
-                type: "console"
-            }
+                type: 'console'
+			},
+			logMessage: {
+				type: 'log/appender/logMessageAppender',
+				host: '10.20.32.61',
+				port: 10130,
+				path: '/publish'
+			}
         },
         categories: {
             default: {
-                appenders: ["console"],
-                level: "DEBUG"
+                appenders: ['console'],
+                level: 'DEBUG'
             }
         }
 	}
