@@ -1,0 +1,5 @@
+		{{field}}: {
+			name: '{{field}}',
+			dataType: '{{data_type}}',
+			isPrimary: {{is_primary}}
+		}
