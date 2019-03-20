@@ -13,14 +13,13 @@ var config = {
                 type: "file",
                 maxLogSize: 1024 * 1024 * 500,
                 filename: "logs/log.log"
-			}
-			/*,
+			},
 			logMessage: {
-				type: 'log/appender/logMessageAppender',
-				host: 'service.hcdlearning.com',
+				type: 'skyshared/log/appender/logMessageAppender',
+				host: '10.20.32.61',
 				port: 10130,
 				path: '/publish'
-			}*/
+			}
         },
         categories: {
             default: {

@@ -10,13 +10,13 @@ var config = {
         appenders: {
             console: {
                 type: 'console'
-			}/*,
+			},
 			logMessage: {
-				type: 'log/appender/logMessageAppender',
+				type: 'skyshared/log/appender/logMessageAppender',
 				host: '10.20.32.61',
 				port: 10130,
 				path: '/publish'
-			}*/
+			}
         },
         categories: {
             default: {
