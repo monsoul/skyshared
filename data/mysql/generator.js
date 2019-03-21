@@ -175,6 +175,7 @@ function formatName(name) {
 
     parts.forEach((part, i) => {
         if (i === 0) {
+			parts[i] = part.toLowerCase();
             return;
         }
 
