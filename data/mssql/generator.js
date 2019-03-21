@@ -184,12 +184,14 @@ class Generator{
 		const parts = name.split('_');
 	
 		parts.forEach((part, i) => {
+			let first
 			if (i === 0) {
-				parts[i] = part.toLowerCase();
+				first = part.substr(0, 1).toLowerCase();
+				parts[i] = first + part.substr(1, part.length - 1);
 				return;
 			}
 	
-			let first = part.substr(0, 1).toUpperCase();
+			first = part.substr(0, 1).toUpperCase();
 			parts[i] = first + part.substr(1, part.length - 1);
 		});
 	
@@ -225,7 +227,6 @@ class Generator{
 		process.exit();
 	}
 }
-
 
 module.exports = function(dbKey){
 	return new Generator(dbKey);

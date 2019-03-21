@@ -174,13 +174,15 @@ function formatName(name) {
     const parts = name.split('_');
 
     parts.forEach((part, i) => {
-        if (i === 0) {
-			parts[i] = part.toLowerCase();
-            return;
-        }
+        let first
+		if (i === 0) {
+			first = part.substr(0, 1).toLowerCase();
+			parts[i] = first + part.substr(1, part.length - 1);
+			return;
+		}
 
-        let first = part.substr(0, 1).toUpperCase();
-        parts[i] = first + part.substr(1, part.length - 1);
+		first = part.substr(0, 1).toUpperCase();
+		parts[i] = first + part.substr(1, part.length - 1);
     });
 
     return parts.join('');
