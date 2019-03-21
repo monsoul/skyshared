@@ -28,12 +28,15 @@ const EXCEPT_COLUMN = {
 };
 
 const COLUMN_TYPE_MAP = {
+	uniqueidentifier: 'Sequelize.UUID',
 	varchar: 'Sequelize.STRING',
 	nvarchar: 'Sequelize.STRING',
     int: 'Sequelize.INTEGER',
     timestamp: 'Sequelize.DATE',
     decimal: 'Sequelize.DECIMAL',
-    bigint: 'Sequelize.BIGINT'
+	bigint: 'Sequelize.BIGINT',
+	bit: 'Sequelize.BIGINT',
+	datetime: 'Sequelize.DATE'
 }
 
 class Generator{
