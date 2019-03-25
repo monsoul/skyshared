@@ -13,6 +13,17 @@ function md5(content) {
     return hash.digest('base64');
 }
 
+function sha256(content){
+    if (!content) {
+        return '';
+    }
+
+    let hash = crypto.createHash('sha256');
+    hash.update(content);
+
+    return hash.digest('base64');
+}
+
 function hmac(key, content, algorithm) {
     if (!content) {
         return '';
@@ -48,6 +59,7 @@ function signQueryString(secret, params) {
 
 module.exports = {
     md5: md5,
+    sha256: sha256,
     hmac: hmac,
     signQueryString: signQueryString
 }
