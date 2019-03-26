@@ -104,7 +104,7 @@ function format(dateTime, includeTime, splitChar) {
         try {
             dateTime = new Date(dateTime);
         }
-        catch{
+        catch (e) {
             dateTime = new Date();
         }
     }
