@@ -14,9 +14,14 @@ function isDate(value){
 	return Object.prototype.toString.call(value) === '[object Date]';
 }
 
+function isObject(value){
+	return Object.prototype.toString.call(value) === '[object Object]';
+}
+
 module.exports = {
 	isArray,
 	isString,
 	isBool,
-	isDate
+	isDate,
+	isObject
 }

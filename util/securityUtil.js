@@ -13,7 +13,7 @@ function md5(content) {
     return hash.digest('base64');
 }
 
-function sha256(content){
+function sha256(content) {
     if (!content) {
         return '';
     }
@@ -48,7 +48,14 @@ function signQueryString(secret, params) {
         keys.sort();
 
         keys.forEach(key => {
-            str += util.format('%s=%s&', key, JSON.stringify(params[key]));
+            const value = params[key];
+
+            if (typeUtil.isObject(value)) {
+                str += util.format('%s=%s&', key, encodeURIComponent(JSON.stringify(params[key])));
+            }
+            else {
+                str += util.format('%s=%s&', key, encodeURIComponent(value));
+            }
         });
 
         str = str.substr(0, str.length - 1);
