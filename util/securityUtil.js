@@ -61,7 +61,10 @@ function signQueryString(secret, params) {
         str = str.substr(0, str.length - 1);
     }
 
-    return hmac(secret, str).toLowerCase();
+    return {
+        signature: hmac(secret, str).toLowerCase(),
+        content: str
+    };
 }
 
 module.exports = {
