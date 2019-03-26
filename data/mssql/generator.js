@@ -36,7 +36,7 @@ const COLUMN_TYPE_MAP = {
     decimal: 'Sequelize.DECIMAL',
 	bigint: 'Sequelize.BIGINT',
 	bit: 'Sequelize.BIGINT',
-	datetime: 'Sequelize.DATE'
+	datetime: 'Sequelize.STRING'
 }
 
 class Generator{
