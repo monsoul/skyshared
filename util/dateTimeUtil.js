@@ -38,13 +38,13 @@ function parseUnixTime(unixTime) {
 }
 
 function addMonths(dateTime, months) {
-	if(!typeUtil.isDate(dateTime)){
-		months = dateTime;
-		dateTime = new Date();
-	}
+    if (!typeUtil.isDate(dateTime)) {
+        months = dateTime;
+        dateTime = new Date();
+    }
 
-	dateTime.setMonth(dateTime.getMonth() + months);
-	return dateTime;
+    dateTime.setMonth(dateTime.getMonth() + months);
+    return dateTime;
 }
 
 function addDays(dateTime, days) {
@@ -101,9 +101,13 @@ function format(dateTime, includeTime, splitChar) {
         includeTime = dateTime;
         dateTime = new Date();
     } else if (typeUtil.isString(dateTime)) {
-        splitChar = dateTime;
         includeTime = false;
-        dateTime = new Date();
+        try {
+            dateTime = new Date(dateTime);
+        }
+        catch{
+            dateTime = new Date();
+        }
     }
 
     if (typeUtil.isString(includeTime)) {
