@@ -53,7 +53,7 @@ module.exports = function signatureMiddleware(appSecrets, options) {
     }
 
     async function validSignature(ctx, secret, params, signature) {
-        let validateContent = securityUtility.signQueryString(secret, params);
+        let validateContent = securityUtility.signQueryString(secret, params).signature;
 
         if (signature != validateContent) {
             await handleMessage(ctx, 'invalid signature');
