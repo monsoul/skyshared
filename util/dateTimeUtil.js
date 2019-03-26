@@ -101,7 +101,6 @@ function format(dateTime, includeTime, splitChar) {
         includeTime = dateTime;
         dateTime = new Date();
     } else if (typeUtil.isString(dateTime)) {
-        includeTime = false;
         try {
             dateTime = new Date(dateTime);
         }
@@ -114,6 +113,8 @@ function format(dateTime, includeTime, splitChar) {
         splitChar = includeTime;
         includeTime = false;
     }
+
+    includeTime = includeTime || false;
 
     splitChar = splitChar || '-';
     const template = '%s' + splitChar + '%s' + splitChar + '%s';
@@ -129,8 +130,9 @@ function format(dateTime, includeTime, splitChar) {
     if (includeTime) {
         const hour = dateTime.getHours();
         const minute = dateTime.getMinutes();
+        const second = dateTime.getSeconds();
 
-        let timePart = util.format('%s:%s', _formatLength(hour), _formatLength(minute));
+        let timePart = util.format('%s:%s:%s', _formatLength(hour), _formatLength(minute), _formatLength(second));
 
         result = util.format('%s %s', result, timePart);
     }
