@@ -14,6 +14,11 @@ var config = {
             console: {
                 type: 'console'
 			},
+            file: {
+                type: "file",
+                maxLogSize: 1024 * 1024 * 50,
+                filename: "logs/log.log"
+			},
 			logMessage: {
 				type: 'skyshared/log/appender/logMessageAppender',
 				host: '10.20.32.61',
@@ -23,7 +28,7 @@ var config = {
         },
         categories: {
             default: {
-                appenders: ['console'],
+                appenders: ['console', 'file'],
                 level: 'DEBUG'
             }
         }

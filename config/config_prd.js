@@ -11,7 +11,7 @@ var config = {
             },
             file: {
                 type: "file",
-                maxLogSize: 1024 * 1024 * 500,
+                maxLogSize: 1024 * 1024 * 50,
                 filename: "logs/log.log"
 			},
 			logMessage: {
