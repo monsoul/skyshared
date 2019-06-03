@@ -9,5 +9,6 @@ module.exports = {
 	util: require('./util'),
 	data: require('./data'),
 	web: require('./web'),
-	net: require('./net')
+    net: require('./net'),
+    messageBus: require('./messageBus')
 }
