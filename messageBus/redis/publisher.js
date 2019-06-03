@@ -4,8 +4,9 @@ const logger = require('../../log').get('busClient');
 
 class Publisher extends events.EventEmitter {
     constructor(config) {
-        this._config = config;
+        super();
         
+        this._config = config;
         this._init();
     }
 

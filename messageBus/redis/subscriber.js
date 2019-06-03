@@ -4,6 +4,8 @@ const logger = require('../../log').get('busClient');
 
 class Subscriber extends events.EventEmitter {
     constructor(config) {
+        super();
+
         this._config = config;
         this._init();
     }
@@ -16,12 +18,12 @@ class Subscriber extends events.EventEmitter {
             logger.error('The subscriber of redis (%s) error', err);
         });
         this._subscriber.on('subscribe', function (channel, count) {
-            logger.error('channel: %s, count: %s', channel, count);
+            logger.info('channel: %s, count: %s', channel, count);
         });
 
         const me = this;
         this._subscriber.on('message', function (channel, message) {
-            logger.debug('subscribe channel: %s, message: %s', channel, message);
+            logger.info('subscribe channel: %s, message: %s', channel, message);
 
             me.emit('message', {
                 channel: channel,
