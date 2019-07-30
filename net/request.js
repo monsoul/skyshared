@@ -21,7 +21,7 @@ module.exports = function(data, options) {
 		let json;
 		if(data){
 			json = JSON.stringify(data);
-			options.headers['Content-Length'] = json.length;
+			options.headers['Content-Length'] = Buffer.byteLength(json);
 		}
 
         var req = http.request(options, resolve);
