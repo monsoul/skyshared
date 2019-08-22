@@ -14,6 +14,7 @@
   "dependencies": {
     "debug": "^3.1.0",
     "eslint": "^5.10.0",
+    "ioredis": "^4.14.0",
     "jwt-simple": "^0.5.5",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.0",

@@ -1,5 +1,3 @@
-const redisCache = require('./redis/redisCache');
-
 let _cache = null;
 
 function cache() {
@@ -40,7 +38,10 @@ cache.init = function(config) {
     }
 
     if (config.enable) {
-        var redisClient = redisCache(config);
+        config.isCluster = config.isCluster || false;
+        
+        const redisCache = config.isCluster ? require('./redisCluster') : require('./redis');
+        const redisClient = redisCache(config);
 
         _cache = {
             set: function(key, value, expire, wait) {
