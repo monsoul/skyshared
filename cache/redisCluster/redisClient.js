@@ -15,7 +15,7 @@ class RedisClient {
     }
 
     _createClient(name) {
-        const client = redis.Cluster(this._config.servers, this._config.options || {});
+        const client = new redis.Cluster(this._config.servers, this._config.options || {});
 
         client.on('error', function(err) {
             logger.fatal('redis client (%s) error', name, err);
