@@ -16,19 +16,14 @@ var config = {
             },
             logMessage: {
                 type: 'skyshared/log/appender/logMessageAppender',
-                host: '10.20.32.61',
+                host: 'service.hcdlearning.com',
                 port: 10130,
                 path: '/publish'
-            },
-            logstash: {
-                type: '@log4js-node/logstashudp',
-                host: 'hz.liveq.net',
-                port: 9252
             }
         },
         categories: {
             default: {
-                appenders: ["file", "logstash"],
+                appenders: ["file", "logMessage"],
                 level: "ERROR"
             }
         }

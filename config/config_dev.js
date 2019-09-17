@@ -18,16 +18,11 @@ var config = {
                 type: "file",
                 maxLogSize: 1024 * 1024 * 50,
                 filename: "logs/log.log"
-			},
-            logstash: {
-                type: '@log4js-node/logstashudp',
-                host: '10.20.32.250',
-                port: 9252
-            }
+			}
         },
         categories: {
             default: {
-                appenders: ['console', 'file', 'logstash'],
+                appenders: ['console', 'file'],
                 level: 'DEBUG'
             }
         }
