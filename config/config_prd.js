@@ -28,7 +28,7 @@ var config = {
         },
         categories: {
             default: {
-                appenders: ["file", ],
+                appenders: ["file", "logstash"],
                 level: "ERROR"
             }
         }
