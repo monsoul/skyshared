@@ -16,9 +16,8 @@ var config = {
 			},
 			logMessage: {
 				type: 'skyshared/log/appender/logMessageAppender',
-				host: '10.20.32.61',
-				port: 10130,
-				path: '/publish'
+				host: 'nas.hcdglobal.cn',
+				port: 9253
 			}
         },
         categories: {

@@ -12,23 +12,22 @@ var config = {
     logger: {
         appenders: {
             console: {
-                type: 'console'
-			},
+                type: "console"
+            },
             file: {
                 type: "file",
                 maxLogSize: 1024 * 1024 * 50,
                 filename: "logs/log.log"
-			},
-			logMessage: {
-				type: 'skyshared/log/appender/logMessageAppender',
-				host: '10.20.32.61',
-				port: 10130,
-				path: '/publish'
-			}
+            },
+            logMessage: {
+                type: 'skyshared/log/appender/logMessageAppender',
+                host: '10.20.32.250',
+                port: 9252
+            }
         },
         categories: {
             default: {
-                appenders: ['console', 'file'],
+                appenders: ["file", 'logMessage'],
                 level: 'DEBUG'
             }
         }
