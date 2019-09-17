@@ -19,16 +19,15 @@ var config = {
                 maxLogSize: 1024 * 1024 * 50,
                 filename: "logs/log.log"
 			},
-			logMessage: {
-				type: 'skyshared/log/appender/logMessageAppender',
-				host: '10.20.32.61',
-				port: 10130,
-				path: '/publish'
-			}
+            logstash: {
+                type: '@log4js-node/logstashudp',
+                host: '10.20.32.250',
+                port: 9252
+            }
         },
         categories: {
             default: {
-                appenders: ['console', 'file'],
+                appenders: ['console', 'file', 'logstash'],
                 level: 'DEBUG'
             }
         }
