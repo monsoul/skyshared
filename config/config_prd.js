@@ -1,5 +1,5 @@
 var config = {
-    appName: 'skyShared',
+	appName: 'skyShared',
     redis: {
         host: 'live.redis.server',
         port: 6379
@@ -13,17 +13,16 @@ var config = {
                 type: "file",
                 maxLogSize: 1024 * 1024 * 50,
                 filename: "logs/log.log"
-            },
-            logMessage: {
-                type: 'skyshared/log/appender/logMessageAppender',
-                host: 'service.hcdlearning.com',
-                port: 10130,
-                path: '/publish'
-            }
+			},
+			logMessage: {
+				type: 'skyshared/log/appender/logMessageAppender',
+				host: 'nas.hcdglobal.cn',
+				port: 9253
+			}
         },
         categories: {
             default: {
-                appenders: ["file", "logMessage"],
+                appenders: ["file", 'logMessage'],
                 level: "ERROR"
             }
         }
