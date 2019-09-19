@@ -3,11 +3,8 @@ const logPath = process.env.LOG_PATH;
 var config = {
 	appName: 'skyShared',
     redis: {
-        host: '10.20.32.250',
-		port: 6379,
-		options: {
-			db: 3
-		}
+        host: 'uat.redis.server',
+		port: 6379
     },
     logger: {
         appenders: {
@@ -21,7 +18,7 @@ var config = {
             },
             logMessage: {
                 type: 'skyshared/log/appender/logMessageAppender',
-                host: '10.20.32.250',
+                host: 'uat.logstash.com',
                 port: 9252
             }
         },
