@@ -2,7 +2,7 @@ const logPath = process.env.LOG_PATH;
 
 var config = {
 	appName: 'skyShared',
-    redis:{host:'uat.redis.server',port:6379},
+    redis: {"host":"uat.redis.server","port":6379},
     logger: {
         appenders: {
             console: {
