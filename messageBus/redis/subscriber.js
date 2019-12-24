@@ -1,5 +1,4 @@
 const events = require('events');
-const redis = require('redis');
 const logger = require('../../log').get('busClient');
 
 class Subscriber extends events.EventEmitter {
@@ -12,8 +11,13 @@ class Subscriber extends events.EventEmitter {
 
     _init() {
         const options = this._config.options || {};
-
-        this._subscriber = redis.createClient(this._config.port, this._config.host, options);
+        if(this._config.isCluster){
+            const redis = require('ioredis');
+            this._subscriber = new redis.Cluster(this._config.servers, this._config.options || {});
+        }else{
+            const redis = require('redis');
+            this._subscriber = redis.createClient(this._config.port, this._config.host, options);
+        }
         this._subscriber.on('error', function (err) {
             logger.error('The subscriber of redis (%s) error', err);
         });
