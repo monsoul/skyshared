@@ -1,9 +1,6 @@
 var config = {
 	appName: 'skyShared',
-    redis: {
-        host: 'live.redis.server',
-        port: 6379
-    },
+    redis: {"host":"live.redis.server","port":6379},
     logger: {
         appenders: {
             console: {
