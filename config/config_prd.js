@@ -9,7 +9,8 @@ var config = {
             file: {
                 type: "file",
                 maxLogSize: 1024 * 1024 * 50,
-                filename: "logs/log.log"
+                filename: 'logs/' + new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + '.log',
+                backups: 3
 			},
 			logMessage: {
 				type: 'skyshared/log/appender/logMessageAppender',
